@@ -1,0 +1,17 @@
+viewModel数据的保存（意外杀死）。
+方法1:用onSaveInstanceState()  （较老，较常规）(注释了的代码)
+    还记得我们之前也有过这样的需求（Demo2）么？结合之前的代码。我们写一个OnSaveInstanceSate+ViewModel的例子
+        a,创建viewModel，代码和前面例子相差无几。自己看看就懂了
+        b,重写OnSaveInstanceSate()方法，在OnCreate()里面判空（看下Demo2）
+        c,数据重赋予ViewModel
+方法2:ViewModel的SavedSate
+    这里的话，由于谷歌的开发文档一直更新，所以我写的时候已经和原视频有很大出入的了。建议还是直接看官方文档进行书写
+        SavedSate的文档为https://developer.android.google.cn/topic/libraries/architecture/viewmodel-savedstate
+        沿用之前的页面。
+        a，创建MyViewModelSaveSate。唯一变量是SavedStateHandle。类似于intent。你需要的东西都以键值的方式存储
+        b，和之前一样。在activity创建viewModel对象。反向引用到xml。（创建方式有所改变。需注意）
+
+
+最后，模拟器开发者模式设置不允许后台运行，调试程序，可以发现方法一，二。都能做了数值保存。
+总结：1是比较常用的方法了，一般开发都是从onSaveInstanceState走过来的。
+     2的话则是一种新方法。配合着jetPack。简化了很多过程，同时可以让我们的代码更加规范易懂

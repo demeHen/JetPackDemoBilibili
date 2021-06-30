@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">1_Localization</string>
+    <string name="text_title">I am a message!</string>
+    <string name="text_content">Test Localization</string>
+    <string name="button_name">Button</string>
+    <string name="text_new_message">now,I am new message</string>
+</resources>

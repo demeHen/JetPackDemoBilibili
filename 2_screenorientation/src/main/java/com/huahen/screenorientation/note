@@ -1,0 +1,9 @@
+屏幕方向旋转同页面重加载
+1，旋转改变不表。锁定页面旋转的方式为manifest为指定的Activity设置screenOrientation字段
+2，实现双布局的方式为layout中，点击Create Landscape Variation创建一个纵向的布局副本
+3，关于页面旋转-
+    a,把给所有生命周期都打上log，执行旋转屏幕操作。可以发现，此时页面是被销毁了，然后重新加载了一遍
+        我们可以给页面加上文本和按钮事件，更直观的观察到这一现象
+    b，如何做数据保存呢？我们在重写一个方法onSaveInstanceState(),同样打上log。可以发现它的触发处于onPause和
+        onStop之间。在页面失焦的时候,将数据保存在outState中。在onCreate（）判断带参是否为空。如为屏幕旋转重加载
+        则不为空，将数据取出再赋予控件

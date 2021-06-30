@@ -1,0 +1,24 @@
+/**
+* Create 划痕 by 2021/06/25
+*/
+写在文前。正经的android开发谁用用findViewById啊哈哈哈。开个玩笑。
+我们的应用页面通常有着太多的控件需要声明。而以fvb的方式去表达。会显得代码量很多且重复。而且写起来也很累。
+以前我们是用“黄油刀（ButterKnife ）”这次插件来处理。它是一种注解式的声明对象的方式。简化了xml控件的声明和使用。
+而在jetPack中。DataBinding也做到了这一点。且做得更好。
+
+1，把上个项目的viewModel拿过来用，主页面的方法大致相同
+2，在Gradle里的defaultConfig加上 dataBinding { enabled true}  （旧版AS需要配置支持1.8）
+3，在xml的最外面那个xml。Alt+Enter。创建layout
+4，此时回到MainActivity。其中我用注释的方式显示了与原来代码的对比。
+    可以发现，声明binging之后。我们可以控件对象进行直接操作,而不需要大量的findViewById
+    再看一下我们的代码（自己忽略注释），是不是变得简洁了，感觉灵魂得到净化
+5,DataBinding的反向引用 （这个项目的精髓）
+    a，复制MainActivity和activity_main.xml.设置点击文本跳过去，我们这个页面进行展示
+    b，在activity_tow.xml 的data标签里声明一个variable标签。名字随便取type指向我们的viewModel
+        此时这个variable对应就是我们的数据源viewModel。我们就是在xml对其进行了反向引用。当然我们还得对它进行set。
+    c，在towActivity里面创建binding。setData。
+    d，在xml使用我们的数据源。
+        TextView —— android:text="@{String.valueOf(Data.liveNumber)}"
+        Button   —— android:onClick="@{()->Data.addLiveNumber(2)}"
+
+    run一下。完美运行！此刻回去看TowActivity中的代码。神特么只有6行！是不是感觉自己灵魂得到了救赎

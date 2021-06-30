@@ -1,0 +1,12 @@
+LiveData--以观察者模式，检测到数据变化，更改视图
+
+这个demo和上一个大致一样。
+1，先看一下ViewModelWithLiveData的内容。也是简单的几行代码。
+        get方法获取实例。为空情况下创建，初始为0
+        add方法执行加法
+2，接着是MainActivity了。和之前大致一样。两个按钮事件取消setText的处理。只进行对viewModel的修正
+3，对viewModel实现监听（观察），取到实例，实现observe方法--当对象发送改变的时候触发这个方法。
+    在监听内。执行setText（）
+4，run！运行程序。我们会发现点击按钮，即使按钮没有设置对修改视图的操作。但是数值仍能发生变化。
+    是因为，我们对number设置了监听。当按钮触发add方法，number发生改变。此时observe触发
+    修正了UI的展示

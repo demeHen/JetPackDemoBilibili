@@ -1,0 +1,3 @@
+这里我们创建一个MyViewModel继承于ViewModel。其中定义一个参数number。（注意此处并没有get、set方法）
+在MainActivity获取MyViewModel的实例。展示在textView上，再加两个button对其进行修改。
+可以发现。无论是屏幕翻转，还是从主页返回。textView的值保持不变
