@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_nav_ui"
+    app:startDestination="@id/navUiFragment">
+
+    <fragment
+        android:id="@+id/navUiFragment"
+        android:name="com.huahen.navigation.navui.NavUiFragment"
+        android:label="fragment_nav_ui"
+        tools:layout="@layout/fragment_nav_ui">
+        <action
+            android:id="@+id/action_navUiFragment_to_menuActivity"
+            app:destination="@id/menuActivity"/>
+        <action
+            android:id="@+id/action_navUiFragment_to_drawerLayoutActivity"
+            app:destination="@id/drawerLayoutActivity"/>
+        <action
+            android:id="@+id/action_navUiFragment_to_bottomNavigationBarActivity"
+            app:destination="@id/bottomNavigationBarActivity"/>
+
+    </fragment>
+
+
+    <activity
+        android:id="@+id/menuActivity"
+        android:name="com.huahen.navigation.navui.menu.MenuActivity"
+        android:label="MenuActivity"/>
+    <activity
+        android:id="@+id/drawerLayoutActivity"
+        android:name="com.huahen.navigation.navui.drawerlayout.DrawerLayoutActivity"
+        android:label="activity_drawer_layout"
+        tools:layout="@layout/activity_drawer_layout"/>
+    <activity
+        android:id="@+id/bottomNavigationBarActivity"
+        android:name="com.huahen.navigation.navui.bottomnavigationbar.BottomNavigationBarActivity"
+        android:label="BottomNavigationBarActivity"/>
+</navigation>

@@ -1,0 +1,115 @@
+/**
+*Create huahen by 2021/07/02
+*/
+navigation（导航）的话。我以前写过一个demoList。晚点一起贴上来看看吧
+
+1，名词解释
+NavHost——容器，存放页面。同时也是个控制器。可以把它当做一个栈道。页面（Activity和Fragment）的显示/退出相当于进栈/退栈
+NavController——控制导航逻辑
+NavGraph——可视化界面。。
+
+前两章以我demo来讲咯。顺便扩展一下UI和deepLink的使用
+
+
+/*
+ * Created by huahen on 2021/5/29
+ * 参考https://zhuanlan.zhihu.com/p/69562454；https://blog.csdn.net/mingyunxiaohai/article/details/104419738/；
+*/
+Navigation是android jetPack 提供的一个UI架构组件，旨在方便我们管理Fragment页面。
+它具体有以下优势：
+可视化的页面导航图，类似xcode中的StoryBoard，便于我们看清页面之间的关系
+通过destination和action来完成页面间的导航
+方便的页面切换动画
+页面间类型安全的参数传递
+通过NavigationUI类，对菜单，底部导航，抽屉菜单导航进行方便统一的管理
+深层链接
+
+
+Navigation Graph--这是一种新型的XML资源文件，里面包含了应用程序所有的页面及页面之间的关系
+NavHostFragment--这是一个特殊的布局文件，Navigation Graph中的页面通过该Fragment展示
+NavController--这是一个Java/Kotlin对象，用于在代码中完成Navigation Graph中具体的页面切换
+
+1.基本导航（跳转）的实现，及动画的设置（basicJump）:
+    a.首先创建一个Navigation Graph.
+        在res文件夹下 New -> Android Resource File -> Resource type 选择：Navigation 创建导航图nav_graph_1
+        此处一般studio会为你自动创建外部文件夹和导入相应依赖包。如没有，则自己操作
+            implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+            implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    b.添加NavHostFragment
+        在activity_one里创建一个fragment声明为NavHostFragment（注意设置id），
+        即在布局内添加以下代码     ----android:name="androidx.navigation.fragment.NavHostFragment"
+        并为其设置导航图nav_graph ----app:navGraph="@navigation/nav_graph_1"
+        此时可以打开nav_graph_1的可视化界面，在里面可以找到刚才声明的NavHostFragment，
+        直接点击加号->Create new destination (destination指的是目的地，可以设置成Activity和Fragment)
+        此处新建OneFragment。系统会自动生成对应layout和class。
+        此时你看到GRAPH下，你新建的fragment有个Start，表明这是展示的第一个fragment，相对应nav_graph的
+        navigation标签多了一行----app:startDestination="@id/oneFragment"该属性指定起始destination为
+        oneFragment，run一下程序。可以看到Activity内的fragment展示了oneFragment的内容，这便是
+        NavHostFragment的绘制了。别急，接下来讲跳转。
+        oneFragment加个按钮，同时创建TowFragment，方法同上。在nav_graph_1可视化界面，点oneF，然后点右侧圆点
+        连接到towF。此时你会发现nav_graph_1(text)里oneFragment多出了一个action标签。这就是它的跳转事件了。
+        其中id为事件名，destination为跳转目标。在OneFragment中实现跳转事件，具体代码为下：
+        //第一种实现
+        Navigation.findNavController(v).navigate(R.id.action_oneFragment_to_towFragment);
+        //第二种实现
+        mView.findViewById(R.id.btn_jump_towFragment).setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_oneFragment_to_towFragment));
+        选择其一即可，run一下，可以发现OneF按钮时跳到了TowF。按回退键时又返回了OneF；但是有点突兀。此时就需要
+        为跳转设置动画了。找到oneF的action，其他的四个属性就是对应的动画设置，也可以打开可视化界面，点击那条线，
+        也可以直接设置。再run一下，可以看到此时的跳转就显得很平滑
+
+/*
+ * add by huahen on 2021/5/31
+ * 参考https://zhuanlan.zhihu.com/p/69631248;
+*/
+2.用Nav进行传参(safeArgs)
+先copy份代码到safeArgs，新建nav_graph_2,threeFragment,FourFragment,实现和demo1一样
+未使用nav之前,Fragment传参一般用bundle（写法不表，自己看参考），而用Nav的话则是通过，插件构建好的类进行传参，实现如下：
+    a.安装插件
+        在Project的build.gradle文件中添加--classpath "android.arch.navigation:navigation-safe-args-gradle-plugin:1.0.0"
+        引用该插件。在app的build.gradle文件中添加--apply plugin: 'androidx.navigation.safeargs'
+    b.在nav_graph_2中书写传递参数属性
+        打开导航图。可视化操作为：点击传参的fragment。右边工具栏点击Arguments的加号，选择参数名，参数类型，是否为空，默认值等参数，
+        确定之后。text界面里对应的fragment下会多了一个argument，这部分就是传参的代码实现。
+        点开java（generated）子safeArgs可以看到插件为我们生成的方法。
+    c.传递参数
+        找到我们的跳转事件，声明bundle
+        Bundle bundle = new ThreeFragmentArgs.Builder().setStr("I am str come form ThreeFragment").setIntText(0315).build().toBundle();
+        （这条应该看得懂吧。。。）
+        传递bundle（在原来跳转上传递）
+        Navigation.createNavigateOnClickListener(R.id.action_threeFragment_to_fourFragment,bundle)
+    b.接收参数
+        fourFragment重写了onReuse()方法，延迟两秒后接收参数，并修改视图，相关实现为:s
+        接收bundle---Bundle bundle = getArguments();
+        用插件生成的方法取值---ThreeFragmentArgs.fromBundle(bundle).getStr();
+
+    run一下，在TreeF点击按钮跳转到FourF，等待两秒。发现视图更新
+
+/*
+ * add by huahen on 2021/6/02
+ * 参考https://zhuanlan.zhihu.com/p/69653419;
+*/
+3，NavigationUI的使用
+这个也是常用的方法。讲起来有点麻烦。我把参考里的项目迁过来了。可自己配合代码学习
+    注意：1，graph_nav_ui.xml里设置的destination指向的是Activity.这是其另一种使用场景
+         2，BottomNavigation的话。我记得多于四个选项会出现文字隐藏的特性。这个可通过反射解决。（自己百度）
+            其次，在很多场景下BottomNavigation配合viewPager使用。
+
+//参考https://zhuanlan.zhihu.com/p/69660790   --DeepLink
+      https://blog.csdn.net/weixin_43499030/article/details/90264915  ---PendingIntent理解
+      https://blog.csdn.net/xxdw1992/article/details/80948315         ---PendingIntent理解
+4,DeepLink的使用
+deepLink也被叫做深链，此特性可以让我们经由一个外部的链接（PendingIntent或者url）直接跳转到应用的某一个destination中
+（笔者写到这里的时候，还没接触过PendingIntent，此处直接使用参考的代码，之后可能会自己写一个PendingIntent的demo）
+    demo很简单。就一个页面跳转。跳到DeepLinkSettingsFragment这个页面
+    这里有两种方式：1，第二按钮的事件，拉起一个通知栏事件，设置传递参数，跳转页面(getPendingIntent()),跳到第二页面，并改变视图。
+                    这个很容易理解，看一下代码就能懂了。
+                  2，第二种方式就很有意思了。nav_deeplink里面对deepLinkSettingsFragment加了个标签deepLink，具体代码为
+                     <deepLink app:uri="www.YourWebsite.com/{params}" />  （前面为网页，后面params为参数）
+                     manifests里面对应activity，设置<nav-graph/>标签
+                     这样当你的用户在浏览器访问到你设置的网页时，就能监听到这个请求，并跳到DeepLinkSettingsFragment（此功能一般用来做内页跳转）
+
+/**
+*Create huahen by 2021/07/02
+*https://www.bilibili.com/video/BV1w4411t7UQ?p=19
+*/
+Navigation+ViewModel实现--不管navigation怎么乱窜。我们根据viewModel来获取数据，实现数据共享

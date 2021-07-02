@@ -10,6 +10,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/10_navigation" />
             <option value="$PROJECT_DIR$/1_localization" />
             <option value="$PROJECT_DIR$/2_screenorientation" />
             <option value="$PROJECT_DIR$/3_viewmodel" />
@@ -18,6 +19,7 @@
             <option value="$PROJECT_DIR$/6_demoscoreboard" />
             <option value="$PROJECT_DIR$/7_viewmodelsavestate" />
             <option value="$PROJECT_DIR$/8_sharedpreferences" />
+            <option value="$PROJECT_DIR$/9_viewmodelorsharepreferences" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

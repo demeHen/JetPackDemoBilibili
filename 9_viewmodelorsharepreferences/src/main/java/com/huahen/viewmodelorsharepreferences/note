@@ -1,0 +1,5 @@
+这一章的需求是将viewModel和SharedPreferences结合。实现扩大数据的存活范围。
+即系统数据改变，或者应用杀死，重启仍能显示最新的数据
+    a,仍是画页面
+    b,创建viewModel。注意和之前不一样。这次我们继承的是AndroidViewModel。
+    c，看viewModel里面的代码注释，大致的概括就是在之前的viewModel之上加了sp的存取。把数据保活范围扩大至应用被杀死

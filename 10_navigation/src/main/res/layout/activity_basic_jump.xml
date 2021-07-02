@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:textColor="#000"
+        android:textSize="32dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="BasicJump" />
+
+    <!--    系统将自动处理回退事件-->
+    <!--    app:defaultNavHost="true"-->
+    <!--    设置该fragment对应的导航图-->
+    <!--    app:navGraph="@navigation/nav_graph_1"-->
+    <fragment
+        android:id="@+id/fragment_one"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav_graph_1" />
+</LinearLayout>
