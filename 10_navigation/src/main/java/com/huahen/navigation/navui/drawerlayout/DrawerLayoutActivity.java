@@ -16,13 +16,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-public class DrawerLayoutActivity extends AppCompatActivity
-{
+public class DrawerLayoutActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer_layout);
 
@@ -39,11 +37,9 @@ public class DrawerLayoutActivity extends AppCompatActivity
         NavigationView navigationView = findViewById(R.id.navigation_view);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener()
-        {
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
-            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments)
-            {
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 Toast.makeText(DrawerLayoutActivity.this, "onDestinationChanged() called", Toast.LENGTH_SHORT).show();
             }
         });
@@ -53,8 +49,7 @@ public class DrawerLayoutActivity extends AppCompatActivity
      * 左上角的菜单被点击时调用到
      */
     @Override
-    public boolean onSupportNavigateUp()
-    {
+    public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         Toast.makeText(DrawerLayoutActivity.this, "onSupportNavigateUp() called", Toast.LENGTH_SHORT).show();
         return NavigationUI.navigateUp(navController, appBarConfiguration) || super.onSupportNavigateUp();

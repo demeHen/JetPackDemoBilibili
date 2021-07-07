@@ -3,32 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/homeFragment2">
-    <fragment
-        android:id="@+id/homeFragment2"
-        android:name="com.huahen.democount.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
-        <action
-            android:id="@+id/action_homeFragment2_to_countFragment"
-            app:destination="@id/countFragment" />
-    </fragment>
+    app:startDestination="@id/homeFragment">
     <fragment
         android:id="@+id/endFragment"
         android:name="com.huahen.democount.EndFragment"
         android:label="fragment_end"
-        tools:layout="@layout/fragment_end" >
+        tools:layout="@layout/fragment_end">
         <action
-            android:id="@+id/action_endFragment_to_homeFragment22"
-            app:destination="@id/homeFragment2" />
+            android:id="@+id/action_endFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/countFragment"
         android:name="com.huahen.democount.CountFragment"
         android:label="fragment_count"
-        tools:layout="@layout/fragment_count" >
+        tools:layout="@layout/fragment_count">
         <action
-            android:id="@+id/action_countFragment_to_endFragment2"
+            android:id="@+id/action_countFragment_to_endFragment"
             app:destination="@id/endFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.huahen.democount.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_countFragment"
+            app:destination="@id/countFragment" />
     </fragment>
 </navigation>
