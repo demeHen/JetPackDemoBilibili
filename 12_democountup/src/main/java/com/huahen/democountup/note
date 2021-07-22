@@ -1,0 +1,28 @@
+/**
+*Create 划痕 by 2021/07/22
+*/
+从GitHub拿到的up主的项目。对比了一下，发现自己问题多多
+xml大致一样。其中有一个知识点。
+    我们可以在string上定义字符串如下:
+        <string name="high_score_message">High Score:%d</string>
+    然后直接声明值替换
+        android:text="@{@string/high_score_message(data.highScore)}"
+
+类比较:
+    MainActivity:双方都是一个MainActivity通过nav嵌套若干个fragment。
+                 相比我，up监听了返回键事件，设置相对应的事件（弹窗，退出，返回titleFragment）
+    MyViewModel:这个是最重要的。从这里可以看出我和up的设计思想上有本质上的不同
+                 我的代码趋向于将事件都将赋予viewModel处理。可以看到我的答题页面（CountFragment）的代码量是很少的。
+                 事件集中在viewModel中。包括算式的生成，答案的键入，正确与否的判断，后续的展示。统统在viewModel中。
+                 这种方法是不可取的。
+                 对比下up的viewModel。vm只做数据的存取，而事件放在QuestionFragment去处理。界面显得清晰明了。
+                 这种才是符合viewModel的设计思想——视图层（view）和数据层（model）分开不耦合。视图层不直接操作数据。
+                 通过viewModel进行联系。
+    TitleFragment:对应我的HomeFragment。都是dataBing引用一个按钮，声明点击事件nav跳转到答题页，up主的多了获取算式和重置答题数的操作
+    QuestionFragment:对应我的CountFragment,如我上面说的。我讲所有的逻辑写在了viewModel。所以view层很空，vm层很乱。
+                 而up主的view层。处理按钮的事件与之后的逻辑。项目的架构显得清晰明了。
+    WinFragment/LoseFragment:对应我的EndFragment。结构清晰的好处体现出来了。up主只需要在上层QuestionFragment判断走向哪个页面就行。
+                 而我还需要写了一大堆事件。（viewModel写了一大堆逻辑，返回了是否需要跳转云云之类的事情）
+
+
+总结：理解好viewModel的定义。

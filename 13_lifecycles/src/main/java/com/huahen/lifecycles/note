@@ -1,0 +1,18 @@
+/**
+*Create 划痕 by 2021/07/22
+*
+看代码，在MainActivity中，我们重写activity的两个生命周期onResume，onPause。来实现计时器的暂停/继续功能乍一看
+没什么问题。但是当我们的程序的功能增加。需要处理的事情变多（比如mvp的p层的销毁。三方库的初始化及注销）。生命周期
+方法就会变得很乱。甚至出现前面代码走不通，后面代码一直运行不到的问题。lifeCycles就解决了这个问题。
+
+自定义view:MyChronometer继承于Chronometer实现接口LifecycleObserver。通过注解实现对生命周期onResume和onPause
+的监听，并将之前的处理放进去（具体看代码实现）
+copy一下activity和xml。命名new。
+xml引用MyChronometer。
+NewActivity中实现lifeCycles的观察——getLifecycle().addObserver(myChronometer);
+运行程序 能发现成功实现之前要的功能
+
+LifeCycles优点:
+    1,view层结构清晰简单
+    2,代码移植性高
+    3,功能封装在lifeCycles。耦合低
